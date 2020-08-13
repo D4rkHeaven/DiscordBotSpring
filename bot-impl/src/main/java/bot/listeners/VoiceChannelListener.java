@@ -1,6 +1,7 @@
 package bot.listeners;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,8 +22,10 @@ import java.util.function.Predicate;
 /**
  * Listens voice channels events
  */
-@Component
+
 @Slf4j
+@Component
+@NoArgsConstructor
 public class VoiceChannelListener extends ListenerAdapter implements Runnable {
 
     @Getter

@@ -1,23 +1,29 @@
 package bot.listeners;
 
+import bot.BotUser;
 import bot.utils.CensorshipFilter;
 import bot.utils.ExpSystem;
 import bot.utils.Filter;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Listens message channels events
  */
-@Component
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class MessageListener extends ListenerAdapter {
     @Getter
     private static final long BOT_ID = 732151740379693076L;
@@ -25,15 +31,14 @@ public class MessageListener extends ListenerAdapter {
     private static final long CHAT_ID = 732199841819787315L;
     @Setter
     private boolean debugMode;
-    private CensorshipFilter censorshipFilter;
-    private Filter filter;
-    public ExpSystem expSystem;
 
-    public MessageListener() {
-        debugMode = false;
-        censorshipFilter = new CensorshipFilter();
-        filter = new Filter(this);
-        expSystem = new ExpSystem();
+    final public ExpSystem expSystem;
+    final private CensorshipFilter censorshipFilter;
+    private Filter filter;
+
+    @Autowired
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
     /**

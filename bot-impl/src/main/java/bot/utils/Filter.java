@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,21 +17,22 @@ import java.util.regex.Pattern;
 /**
  * Command filter
  */
-@Component
 @Slf4j
+@Component
 public class Filter {
 
     private static final Map<String, Class<? extends CommandHandler<? extends Command>>> handlerType = new HashMap<>();
     private Pattern pattern;
     private MessageListener listener;
 
-    static {
-        Arrays.stream(CommandType.values()).forEach(commandType -> handlerType.put(commandType.getCommandName(), commandType.getCommandHandler()));
+    public Filter(MessageListener listener) {
+        pattern = Pattern.compile("^(!).*");
+        this.listener = listener;
     }
 
-    public Filter(MessageListener listener) {
-        this.listener = listener;
-        pattern = Pattern.compile("^(!).*");
+    @PostConstruct
+    public void init() {
+        Arrays.stream(CommandType.values()).forEach(commandType -> handlerType.put(commandType.getCommandName(), commandType.getCommandHandler()));
     }
 
     public boolean isCommand(String message) {

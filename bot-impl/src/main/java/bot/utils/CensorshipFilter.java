@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
@@ -17,16 +18,11 @@ import java.util.stream.Collectors;
 /**
  * Deletes messages containing bad words
  */
-@Component
 @Slf4j
+@Component
 public class CensorshipFilter {
-
-    private final Set<String> badWords;
-
-    public CensorshipFilter() {
-        badWords = new HashSet<>();
-        getBadWords();
-    }
+    @Value("${bot.censor}")
+    private List<String> badWords;
 
     /**
      * Clear past messages after bot startup
@@ -68,7 +64,7 @@ public class CensorshipFilter {
         try (InputStreamReader stream = new InputStreamReader(new FileInputStream("bot-impl/src/main/resources/application.properties"), StandardCharsets.UTF_8)) {
             Properties property = new Properties();
             property.load(stream);
-            String[] words = property.getProperty("censor").split(",");
+            String[] words = property.getProperty("bot.censor").split(",");
             for (String word : words) {
                 if (!word.isEmpty())
                     badWords.add(word);

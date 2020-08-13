@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,27 +17,26 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 @Slf4j
-public class ExpSystem extends ListenerAdapter {
+@Component
+public class ExpSystem {
     HashMap<User, Integer> userXp = new HashMap<>();
     HashMap<User, Integer> userTime = new HashMap<>();
     @Setter
+    @Value("${exp.timer}")
     private Integer expTimer;
 
-   // private ObjectMapper mapper;
+    // private ObjectMapper mapper;
     private File json;
 
     //TODO сделать инициализацию мап (в конструкторе?), чтобы не выкидывалось NPE при запуске без новых сообщений
     public ExpSystem() {
         json = new File("src/main/resources/exp.json");
-     //   mapper = new ObjectMapper();
-        loadTime();
-     //   loadJson();
+        //   mapper = new ObjectMapper();
+        //   loadJson();
     }
 
     public int getUserXp(User user) {
-
         return userXp.get(user);
     }
 
@@ -104,17 +104,6 @@ public class ExpSystem extends ListenerAdapter {
             if (getUserXp(user) != 0)
                 textChannel.sendMessage("User " + user.getName() + " have " + getUserXp(user) + " xp.").submit();
         });
-    }
-
-    private void loadTime() {
-        try (FileInputStream file = new FileInputStream("bot-impl/src/main/resources/application.properties")) {
-            Properties property = new Properties();
-            property.load(file);
-            expTimer = Integer.parseInt(property.getProperty("exp.timer"));
-        } catch (IOException e) {
-            log.error("Properties file not found!");
-            e.printStackTrace();
-        }
     }
 
    /* private void loadJson() {
