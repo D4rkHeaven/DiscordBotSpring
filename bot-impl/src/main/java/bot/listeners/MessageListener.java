@@ -1,6 +1,5 @@
 package bot.listeners;
 
-import bot.BotUser;
 import bot.utils.CensorshipFilter;
 import bot.utils.ExpSystem;
 import bot.utils.Filter;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Listens message channels events

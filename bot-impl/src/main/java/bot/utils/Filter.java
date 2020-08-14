@@ -4,6 +4,7 @@ import bot.commands.Command;
 import bot.exceptions.InvalidCommandException;
 import bot.handlers.CommandHandler;
 import bot.listeners.MessageListener;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
@@ -19,16 +20,12 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Filter {
 
     private static final Map<String, Class<? extends CommandHandler<? extends Command>>> handlerType = new HashMap<>();
-    private Pattern pattern;
-    private MessageListener listener;
-
-    public Filter(MessageListener listener) {
-        pattern = Pattern.compile("^(!).*");
-        this.listener = listener;
-    }
+    private static final Pattern pattern = Pattern.compile("^(!).*");
+    private final MessageListener listener;
 
     @PostConstruct
     public void init() {
