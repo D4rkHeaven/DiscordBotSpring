@@ -45,10 +45,9 @@ public class VoiceChannelListener extends ListenerAdapter implements Runnable {
      */
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
-        try {
-            super.onReady(event);
-            Guild guild = event.getJDA().getGuildById(GUILD_ID);
-            assert guild != null;
+        super.onReady(event);
+        Guild guild = event.getJDA().getGuildById(GUILD_ID);
+        if (guild != null) {
             Optional<Category> optionalCategory = guild.getCategories()
                     .stream()
                     .filter(isDynamicCategoryExist())
@@ -62,8 +61,6 @@ public class VoiceChannelListener extends ListenerAdapter implements Runnable {
                 return null;
             });
             createVoiceChannel();
-        } catch (NullPointerException e) {
-            log.warn("Exception: ", e);
         }
     }
 

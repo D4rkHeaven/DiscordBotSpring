@@ -9,9 +9,6 @@ import net.dv8tion.jda.api.events.ReadyEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +18,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class CensorshipFilter {
+
+    private static final long CHAT_ID = 732199841819787315L;
+
     @Value("${bot.censor}")
     private List<String> badWords;
 
@@ -30,7 +30,7 @@ public class CensorshipFilter {
      * @param event bot startup
      */
     public void censoring(ReadyEvent event) {
-        TextChannel textChannel = event.getJDA().getTextChannelById(MessageListener.getCHAT_ID());
+        TextChannel textChannel = event.getJDA().getTextChannelById(CHAT_ID);
         StringBuilder censor = new StringBuilder();
         assert textChannel != null;
         Map<User, List<Message>> userListMap = textChannel
@@ -55,22 +55,5 @@ public class CensorshipFilter {
      */
     public boolean hasBadWords(final String message) {
         return badWords.stream().anyMatch(message::contains);
-    }
-
-    /**
-     * Parse bad words from properties file
-     */
-    private void getBadWords() {
-        try (InputStreamReader stream = new InputStreamReader(new FileInputStream("bot-impl/src/main/resources/application.properties"), StandardCharsets.UTF_8)) {
-            Properties property = new Properties();
-            property.load(stream);
-            String[] words = property.getProperty("bot.censor").split(",");
-            for (String word : words) {
-                if (!word.isEmpty())
-                    badWords.add(word);
-            }
-        } catch (Exception e) {
-            log.warn("Censorship filter disabled. Bad words list not found", e);
-        }
     }
 }

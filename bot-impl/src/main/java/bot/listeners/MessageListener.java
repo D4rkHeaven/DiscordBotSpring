@@ -27,13 +27,11 @@ import java.util.List;
 public class MessageListener extends ListenerAdapter {
     @Getter
     private static final long BOT_ID = 732151740379693076L;
-    @Getter
-    private static final long CHAT_ID = 732199841819787315L;
     @Setter
     private boolean debugMode;
 
-    final public ExpSystem expSystem;
-    final private CensorshipFilter censorshipFilter;
+    public final ExpSystem expSystem;
+    private final CensorshipFilter censorshipFilter;
     private Filter filter;
 
     @Autowired
@@ -68,7 +66,7 @@ public class MessageListener extends ListenerAdapter {
                         + event.getAuthor().getAsTag() + " deleted because it contains bad words.").submit();
             } else if (filter.isCommand(event.getMessage().getContentRaw()))
                 filter.execute(event);
-            else if (expSystem.canGetXp(event.getAuthor()) & (event.getAuthor().getIdLong() != getBOT_ID())) {
+            else if (expSystem.canGetXp(event.getAuthor()) & (event.getAuthor().getIdLong() != BOT_ID)) {
                 expSystem.updateXp(event.getAuthor());
             }
         } catch (Exception e) {

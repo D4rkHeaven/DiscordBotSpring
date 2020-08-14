@@ -4,6 +4,7 @@ import bot.commands.Command;
 import bot.commands.Create;
 import bot.exceptions.InvalidParameterException;
 import bot.listeners.MessageListener;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Category;
@@ -15,19 +16,17 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class CreateHandler implements SettingHandler<Create> {
 
-    Guild targetGuild;
-    String category;
-    String channel;
+    private final MessageListener listener;
 
-    MessageListener listener;
-
-    public CreateHandler(MessageListener listener) {
-        this.listener = listener;
-    }
+    private Guild targetGuild;
+    private String category;
+    private String channel;
 
     @Override
     public Create generateCommand(MessageReceivedEvent message, MessageListener listener) {

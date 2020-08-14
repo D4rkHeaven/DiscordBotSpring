@@ -4,6 +4,7 @@ import bot.commands.Command;
 import bot.commands.Debug;
 import bot.exceptions.InvalidParameterException;
 import bot.listeners.MessageListener;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
@@ -12,13 +13,10 @@ import java.util.Arrays;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DebugHandler implements SettingHandler<Debug> {
 
-    MessageListener listener;
-
-    public DebugHandler(MessageListener listener) {
-        this.listener = listener;
-    }
+    private final MessageListener listener;
 
     @Override
     public Debug generateCommand(MessageReceivedEvent message, MessageListener listener) {

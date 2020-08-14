@@ -1,18 +1,19 @@
 package bot.utils;
 
 import bot.listeners.MessageListener;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,20 +21,22 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class ExpSystem {
+
+    private static final long CHAT_ID = 732199841819787315L;
+
     HashMap<User, Integer> userXp = new HashMap<>();
     HashMap<User, Integer> userTime = new HashMap<>();
-    @Setter
     @Value("${exp.timer}")
     private Integer expTimer;
 
-    // private ObjectMapper mapper;
+    private ObjectMapper mapper;
     private File json;
 
     //TODO сделать инициализацию мап (в конструкторе?), чтобы не выкидывалось NPE при запуске без новых сообщений
     public ExpSystem() {
-        json = new File("src/main/resources/exp.json");
-        //   mapper = new ObjectMapper();
-        //   loadJson();
+        json = new File("bot-impl/src/main/resources/exp.json");
+        mapper = new ObjectMapper();
+        loadJson();
     }
 
     public int getUserXp(User user) {
@@ -41,9 +44,14 @@ public class ExpSystem {
     }
 
     public void setUserXp(User user, int xp) {
-        log.info("User {} have {} xp", user, xp);
-        userXp.put(user, xp);
-        //  mapper.writeValue(json, userXp);
+        try {
+            log.info("User {} have {} xp", user, xp);
+            userXp.put(user, xp);
+            mapper.writeValue(json, userXp);
+        } catch (IOException e) {
+            log.warn("Exception: ", e);
+        }
+
     }
 
     public int getUserTime(User user) {
@@ -93,7 +101,7 @@ public class ExpSystem {
      * @param event new event before bot startup
      */
     public void getXpAfterStartup(ReadyEvent event) {
-        TextChannel textChannel = event.getJDA().getTextChannelById(MessageListener.getCHAT_ID());
+        TextChannel textChannel = event.getJDA().getTextChannelById(CHAT_ID);
         assert textChannel != null;
         Map<User, List<Message>> userXpMap = textChannel
                 .getIterableHistory().stream()
@@ -106,7 +114,7 @@ public class ExpSystem {
         });
     }
 
-   /* private void loadJson() {
+    private void loadJson() {
         try {
             //   SimpleModule simpleModule = new SimpleModule();
             //   simpleModule.addKeyDeserializer(User.class, new UserKeyDeserializer());
@@ -117,5 +125,5 @@ public class ExpSystem {
         } catch (IOException e) {
             log.warn("Exception: ", e);
         }
-    }*/
+    }
 }

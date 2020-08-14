@@ -1,0 +1,5 @@
+bot:
+  token: insert bot token here
+  censor: говнокод,fuck,shit
+exp:
+  timer: 15
