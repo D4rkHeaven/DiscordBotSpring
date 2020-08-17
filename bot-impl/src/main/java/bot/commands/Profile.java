@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class Profile extends InfoCommand {
 
-    public Profile(User author) {
+    public Profile(User user) {
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle(author.getName())
-                .setThumbnail(author.getEffectiveAvatarUrl())
-                .addField("ID", author.getId(), true)
-                .addField("Tag", author.getAsTag(), true);
+                .setTitle(user.getName())
+                .setThumbnail(user.getEffectiveAvatarUrl())
+                .addField("ID", user.getId(), true)
+                .addField("Tag", user.getAsTag(), true);
         this.setAnswer(embed.build());
     }
 }

@@ -12,7 +12,8 @@ import javax.security.auth.login.LoginException;
 import java.util.List;
 
 @Configuration
-public class ApplicationConfig {
+public class JdaConfig {
+
     @Value("${bot.token}")
     private String token;
 
