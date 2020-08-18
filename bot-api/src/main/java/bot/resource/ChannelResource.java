@@ -15,5 +15,5 @@ public interface ChannelResource {
 
     @ApiOperation("Get guild available channels")
     @GetMapping("/{guildId}")
-    List<ChannelDto> getChannels(@ApiParam(" Guild Id") @PathVariable String guildId);
+    List<ChannelDto> getChannels(@ApiParam("Guild Id") @PathVariable String guildId);
 }

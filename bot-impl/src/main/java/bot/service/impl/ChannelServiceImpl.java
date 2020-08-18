@@ -7,13 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Channel service implementation.
@@ -68,10 +66,10 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public List<GuildChannel> getChannels(String guildId) {
         Guild guildById = jda.getGuildById(guildId);
-        List<GuildChannel> channels = List.of();
         if (Objects.nonNull(guildById)) {
-            channels = new ArrayList<>(guildById.getChannels());
+            return new ArrayList<>(guildById.getChannels());
         }
-        return channels;
+        log.info("Guild with id = {} not found", guildId);
+        return List.of();
     }
 }

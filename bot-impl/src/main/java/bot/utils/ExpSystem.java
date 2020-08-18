@@ -37,7 +37,16 @@ public class ExpSystem {
     }
 
     public int getUserXp(User user) {
+        try {
+            if (Objects.isNull(userXp.get(user.getAsTag()))) {
+                userXp.put(user.getAsTag(), 0);
+                mapper.writeValue(json, userXp);
+            }
+        } catch (IOException e) {
+            log.warn("Exception: ", e);
+        }
         return userXp.get(user.getAsTag());
+
     }
 
     public void setUserXp(User user, int xp) {
@@ -52,6 +61,9 @@ public class ExpSystem {
     }
 
     public int getUserTime(String user) {
+        if (Objects.isNull(userTime.get(user))) {
+            userTime.put(user, expTimer);
+        }
         return userTime.get(user);
     }
 
@@ -65,6 +77,7 @@ public class ExpSystem {
      * @param user user who updates his xp
      */
     public void updateXp(User user) {
+
         setUserXp(user, (int) Math.pow(Math.pow(Math.E, Math.log(getUserXp(user)) / 3) + 1, 3));
         setUserTime(user.getAsTag(), expTimer);
         startTimer();
@@ -99,20 +112,27 @@ public class ExpSystem {
      */
     public void getXpAfterStartup(ReadyEvent event) {
         TextChannel textChannel = event.getJDA().getTextChannelById(CHAT_ID);
-        assert textChannel != null;
-        Map<User, List<Message>> userXpMap = textChannel
-                .getIterableHistory().stream()
-                .takeWhile(message -> message.getAuthor().getIdLong() != MessageListener.getBOT_ID())
-                .collect(Collectors.groupingBy(Message::getAuthor));
-        userXpMap.forEach((user, messages) -> {
-            setUserXp(user, (int) Math.pow(messages.size(), 3));
-            if (getUserXp(user) != 0)
-                textChannel.sendMessage("User " + user.getName() + " have " + getUserXp(user) + " xp.").submit();
-        });
+        if (textChannel != null) {
+            Map<User, List<Message>> userXpMap = textChannel
+                    .getIterableHistory().stream()
+                    .takeWhile(message -> message.getAuthor().getIdLong() != MessageListener.getBOT_ID())
+                    .collect(Collectors.groupingBy(Message::getAuthor));
+            userXpMap.forEach((user, messages) -> {
+                setUserXp(user, (int) Math.pow(Math.pow(Math.E, Math.log(getUserXp(user)) / 3) + messages.size(), 3));
+                if (getUserXp(user) != 0)
+                    textChannel.sendMessage("User " + user.getName() + " have " + getUserXp(user) + " xp.").submit();
+            });
+        }
     }
 
     private void loadJson() {
         try {
+            if (!json.exists()) {
+                if (json.createNewFile()) {
+                    log.info("Created new json file for user experience");
+                    mapper.writeValue(json, new HashMap<String, Integer>());
+                }
+            }
             userXp = mapper.readValue(json, new TypeReference<>() {
             });
         } catch (IOException e) {

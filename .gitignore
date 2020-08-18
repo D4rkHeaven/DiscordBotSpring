@@ -34,7 +34,6 @@ target/
 *.iml
 *.ipr
 *.json
-*.yaml
 
 ### NetBeans ###
 /nbproject/private/
