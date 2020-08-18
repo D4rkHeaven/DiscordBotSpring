@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/api/dbd/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface UserResource {
 
-    @ApiOperation("Получить информацию о пользователе")
+    @ApiOperation("Get user info")
     @GetMapping("/{userId}")
-    UserDto getUser(@ApiParam("Id пользователя") @PathVariable String userId);
+    UserDto getUser(@ApiParam("User Id") @PathVariable String userId);
 
 }

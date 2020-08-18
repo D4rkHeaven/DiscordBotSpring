@@ -20,9 +20,9 @@ public class ChannelResourceImpl implements ChannelResource {
 
     @Override
     public List<ChannelDto> getChannels(String guildId) {
-        log.info("getTextChannels() - start, guildId = {}", guildId);
+        log.info("getChannels() - start, guildId = {}", guildId);
         List<ChannelDto> channelDtos = mapperFacade.mapAsList(channelService.getChannels(guildId), ChannelDto.class);
-        log.info("getTextChannels() - end, channelDtoList = {}", channelDtos);
+        log.info("getChannels() - end, channelDtoList = {}", channelDtos);
         return channelDtos;
     }
 }

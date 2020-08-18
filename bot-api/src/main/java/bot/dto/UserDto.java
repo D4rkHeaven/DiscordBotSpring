@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UserDto {
 
-    @ApiModelProperty(value = "Id пользователя", example = "731154486176907289")
+    @ApiModelProperty(value = "User Id", example = "731154486176907289")
     private String userId;
 
-    @ApiModelProperty(value = "Tag пользователя", example = "TestUser#2196")
+    @ApiModelProperty(value = "User Tag", example = "TestUser#2196")
     private String tag;
 
 }

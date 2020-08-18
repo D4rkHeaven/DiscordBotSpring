@@ -25,10 +25,6 @@ public class ChannelServiceImpl implements ChannelService {
 
     private final JDA jda;
 
-   /* public ChannelServiceImpl(@Lazy JDA jda) {
-        this.jda = jda;
-    }*/
-
     @Override
     public GuildChannel createChannel(Guild guild, String name, ChannelType channelType) throws UnsupportedTypeOfChannelException {
         return createChannel(guild, null, name, channelType);

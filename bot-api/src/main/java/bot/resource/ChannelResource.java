@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(value = "/api/ddb/channel", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface ChannelResource {
 
-    @ApiOperation("Получить список доступных каналов на сервере")
+    @ApiOperation("Get guild available channels")
     @GetMapping("/{guildId}")
-    List<ChannelDto> getChannels(@ApiParam("Id сервера") @PathVariable String guildId);
+    List<ChannelDto> getChannels(@ApiParam(" Guild Id") @PathVariable String guildId);
 }

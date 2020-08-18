@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ChannelDto {
 
-    @ApiModelProperty(value = "Id канала", example = "732199841819787315")
+    @ApiModelProperty(value = "Channel Id", example = "732199841819787315")
     private String channelId;
 
-    @ApiModelProperty(value = "Наименование канала", example = "Test channel")
+    @ApiModelProperty(value = "Channel name", example = "Test channel")
     private String name;
 
 }

@@ -32,18 +32,19 @@ public class CensorshipFilter {
     public void censoring(ReadyEvent event) {
         TextChannel textChannel = event.getJDA().getTextChannelById(CHAT_ID);
         StringBuilder censor = new StringBuilder();
-        assert textChannel != null;
-        Map<User, List<Message>> userListMap = textChannel
-                .getIterableHistory().stream()
-                .takeWhile(message -> message.getAuthor().getIdLong() != MessageListener.getBOT_ID())
-                .filter(message -> hasBadWords(message.getContentRaw().toLowerCase()))
-                .collect(Collectors.groupingBy(Message::getAuthor));
-        userListMap.forEach((user, messages) -> {
-            messages.forEach(message -> message.delete().submit());
-            censor.append("Deleted ").append(messages.size()).append(" messages from ").append(user.getAsTag()).append("\n");
-        });
-        if (censor.length() != 0) {
-            textChannel.sendMessage(censor).submit();
+        if (textChannel != null) {
+            Map<User, List<Message>> userListMap = textChannel
+                    .getIterableHistory().stream()
+                    .takeWhile(message -> message.getAuthor().getIdLong() != MessageListener.getBOT_ID())
+                    .filter(message -> hasBadWords(message.getContentRaw().toLowerCase()))
+                    .collect(Collectors.groupingBy(Message::getAuthor));
+            userListMap.forEach((user, messages) -> {
+                messages.forEach(message -> message.delete().submit());
+                censor.append("Deleted ").append(messages.size()).append(" messages from ").append(user.getAsTag()).append("\n");
+            });
+            if (censor.length() != 0) {
+                textChannel.sendMessage(censor).submit();
+            }
         }
     }
 
