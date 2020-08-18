@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -32,15 +33,12 @@ public class UserResourceImpl implements UserResource {
     public UserDto getUser(String userId) {
         log.info("getUser() - start, userId = {}", userId);
         User user = jda.getUserById(userId);
-      //  Guild guild = jda.getGuildById(731154486176907289L);
-
-        //  List<User>  userList = guild.getMembers().stream()
-                 //  .takeWhile(member -> member.getUser().getId().equals(userId))
-       //           .map(Member::getUser)
-        //           .collect(Collectors.toList());
-
-        UserDto userDto = mapperFacade.map(user, UserDto.class);
-        log.info("getUser() - end, userDto = {}", userDto);
-        return userDto;
+        if (Objects.nonNull(user)) {
+            UserDto userDto = mapperFacade.map(user, UserDto.class);
+            log.info("getUser() - end, userDto = {}", userDto);
+            return userDto;
+        }
+        log.info("getUser() - end");
+        return null;
     }
 }
