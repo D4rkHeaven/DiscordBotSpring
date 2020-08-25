@@ -11,5 +11,17 @@
 
     <artifactId>bot-domain</artifactId>
 
-
+    <dependencies>
+        <!--JPA/Database-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <!--Utils-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

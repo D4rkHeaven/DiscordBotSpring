@@ -27,6 +27,10 @@
 
         <JDA.version>4.2.0_177</JDA.version>
 
+        <hibernate.version>5.4.14.Final</hibernate.version>
+        <postgresql.version>42.2.12</postgresql.version>
+        <liquibase.version>3.8.9</liquibase.version>
+
         <lombok.version>1.18.12</lombok.version>
         <orika.version>1.5.4</orika.version>
         <jackson.version>2.11.2</jackson.version>
@@ -59,6 +63,31 @@
                 <groupId>net.dv8tion</groupId>
                 <artifactId>JDA</artifactId>
                 <version>${JDA.version}</version>
+            </dependency>
+
+            <!--JPA/Database-->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
             </dependency>
 
             <!-- Utils -->
@@ -104,6 +133,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 

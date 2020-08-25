@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+    <changeSet id="2020-08-24-create-table-users" author="Dmitrii_Lopatin">
+        <createTable tableName="users">
+            <column name="id" type="VARCHAR(64)"/>
+            <column name="tag" type="VARCHAR(100)"/>
+            <column name="experience" type="VARCHAR(18)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2020-08-24-add-users_key" author="Dmitrii_Lopatin">
+        <addPrimaryKey tableName="users" columnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2020-08-24-add-not-null-users-constraint" author="Dmitrii_Lopatin">
+        <addNotNullConstraint columnName="id" tableName="users"/>
+        <addNotNullConstraint columnName="tag" tableName="users"/>
+        <addNotNullConstraint columnName="experience" tableName="users"/>
+    </changeSet>
+
+</databaseChangeLog>
