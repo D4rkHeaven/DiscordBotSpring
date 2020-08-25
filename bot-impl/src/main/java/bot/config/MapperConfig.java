@@ -28,9 +28,6 @@ public class MapperConfig implements OrikaMapperFactoryConfigurer {
         mapperFactory.classMap(User.class, UserDto.class)
                 .customize(new UserMapper())
                 .register();
-
-        ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-        converterFactory.registerConverter(new MessageMapper());
     }
 
     private static class ChannelMapper extends CustomMapper<GuildChannel, ChannelDto> {
@@ -48,22 +45,4 @@ public class MapperConfig implements OrikaMapperFactoryConfigurer {
             userDto.setTag(user.getAsTag());
         }
     }
-
-    private static class MessageMapper extends BidirectionalConverter<ReceivedMessage, MessageDto> {
-
-        @Override
-        public MessageDto convertTo(ReceivedMessage message, Type<MessageDto> type, MappingContext mappingContext) {
-            return new MessageDto()
-                    .setMessageId(message.getId())
-                    .setContent(message.getContentRaw());
-        }
-
-        @Override
-        public ReceivedMessage convertFrom(MessageDto messageDto, Type<ReceivedMessage> type, MappingContext mappingContext) {
-            return (ReceivedMessage) new MessageBuilder()
-                    .setContent(messageDto.getContent())
-                    .build();
-        }
-    }
-
 }

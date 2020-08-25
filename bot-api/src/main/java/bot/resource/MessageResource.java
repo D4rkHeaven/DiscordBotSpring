@@ -3,6 +3,7 @@ package bot.resource;
 import bot.dto.MessageDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.dv8tion.jda.api.entities.Message;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,4 +17,7 @@ public interface MessageResource {
     List<MessageDto> getLastMessages(@ApiParam("Channel Id") @PathVariable String channelId,
                                      @ApiParam("Number of messages") @RequestBody Integer quantity);
 
+    @ApiOperation("Deliver message to another bot")
+    @GetMapping("/{messageText}/deliver")
+    void deliverMessage(@ApiParam("Message") @PathVariable String messageText);
 }
