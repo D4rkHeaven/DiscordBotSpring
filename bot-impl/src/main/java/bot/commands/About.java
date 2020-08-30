@@ -11,8 +11,8 @@ public class About extends InfoCommand {
 
     public About() {
         EmbedBuilder embed = new EmbedBuilder()
-                .setTitle("Training bot", "https://github.com/D4rkHeaven/DiscordBotSpring")
-                .setDescription("Bot for practice in Java");
+                .setTitle("Discord bot", "https://github.com/D4rkHeaven/DiscordBotSpring")
+                .setDescription("A Java Discord bot using JDA and Spring");
         this.setAnswer(embed.build());
     }
 }
