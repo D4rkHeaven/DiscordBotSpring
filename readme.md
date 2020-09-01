@@ -1,6 +1,6 @@
 #  A discord bot
 
-A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https://github.com/DV8FromTheWorld/JDA).
+A Java bot for [Discord](https://discordapp.com/) using the [JDA library](https://github.com/DV8FromTheWorld/JDA) and the [Spring framework](https://spring.io/projects/spring-framework).
 
 It uses postgresSQL to store data. 
 
