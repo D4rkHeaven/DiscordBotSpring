@@ -14,7 +14,8 @@ public enum CommandType {
     DEBUG("!debug", DebugHandler.class),
     PROFILE("!profile", ProfileHandler.class),
     CREATE("!create", CreateHandler.class),
-    XP("!xp", XpHandler.class);
+    XP("!xp", XpHandler.class),
+    GAMES("!games", GameHandler.class);
 
     public String commandName;
     private Class<? extends CommandHandler<? extends Command>> commandHandler;

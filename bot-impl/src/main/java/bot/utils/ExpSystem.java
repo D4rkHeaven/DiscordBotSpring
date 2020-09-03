@@ -117,11 +117,7 @@ public class ExpSystem {
                     .getIterableHistory().stream()
                     .takeWhile(message -> message.getAuthor().getIdLong() != MessageListener.getBOT_ID())
                     .collect(Collectors.groupingBy(Message::getAuthor));
-            userXpMap.forEach((user, messages) -> {
-                setUserXp(user, (int) Math.pow(Math.pow(Math.E, Math.log(getUserXp(user)) / 3) + messages.size(), 3));
-                if (getUserXp(user) != 0)
-                    textChannel.sendMessage("User " + user.getName() + " have " + getUserXp(user) + " xp.").submit();
-            });
+            userXpMap.forEach((user, messages) -> setUserXp(user, (int) Math.pow(Math.pow(Math.E, Math.log(getUserXp(user)) / 3) + messages.size(), 3)));
         }
     }
 

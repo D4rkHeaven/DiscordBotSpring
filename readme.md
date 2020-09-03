@@ -16,7 +16,7 @@ It uses postgresSQL to store data.
 Commands are prefixed with a "!".
 For a list of commands in discord the **help** command can be used.
 
-Current list of all available commands. See below for a more detailed list
+Current list of all available commands. See below for a more detailed list.
 
 Commands | | | 
 --- | --- | ---| 
@@ -25,7 +25,7 @@ Commands | | |
 
 ## Games (in development)
 
-Games can be accessed though the **!game** command
+Games can be accessed though the **!games** command
 
 A list of games:
 
@@ -53,7 +53,7 @@ Every time the user enters a message containing words from bot.censor list in ap
 
 4. Collect dependencies by `mvn clean install`
     
-5. Run
+5. Run the project
 
 ## Command details
 
