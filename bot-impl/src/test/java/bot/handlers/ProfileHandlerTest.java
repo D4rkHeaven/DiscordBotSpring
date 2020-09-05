@@ -1,26 +1,25 @@
 package bot.handlers;
 
+import bot.commands.Command;
 import bot.commands.Profile;
 import bot.listeners.MessageListener;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
 /**
  * {@link ProfileHandler} tests.
  */
 @SpringBootTest
 public class ProfileHandlerTest {
-
-    private final Profile VALID_PROFILE = new Profile(null);
-    private MessageListener messageListener;
 
     @Mock
     private MessageReceivedEvent messageReceivedEvent;
@@ -30,10 +29,54 @@ public class ProfileHandlerTest {
 
     @Test
     public void testGenerateCommand() {
+        MessageListener messageListener = mock(MessageListener.class);
+
         Profile result = profileHandler.generateCommand(messageReceivedEvent, messageListener);
 
         verify(messageReceivedEvent).getChannel();
         verify(messageReceivedEvent).getAuthor();
-        assertEquals(VALID_PROFILE, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testExecute() {
+        Command command = mock(Command.class);
+        MessageChannel targetChannel = mock(MessageChannel.class);
+        MessageEmbed answer = mock(MessageEmbed.class);
+        MessageAction action = mock(MessageAction.class);
+        when(command.getTargetChannel()).thenReturn(targetChannel);
+        when(command.getAnswer()).thenReturn(answer);
+        when(targetChannel.sendMessage(answer)).thenReturn(action);
+
+        profileHandler.execute(command);
+
+        verify(command).getTargetChannel();
+        verify(command).getAnswer();
+        verify(targetChannel).sendMessage(answer);
+        verify(action).submit();
+    }
+
+    @Test
+    public void testExecuteWhenChannelIsNull() {
+        Command command = mock(Command.class);
+        MessageEmbed answer = mock(MessageEmbed.class);
+        when(command.getAnswer()).thenReturn(answer);
+
+        profileHandler.execute(command);
+
+        verify(command).getTargetChannel();
+        verify(command).getAnswer();
+    }
+
+    @Test
+    public void testExecuteWhenAnswerIsNull() {
+        Command command = mock(Command.class);
+        MessageChannel targetChannel = mock(MessageChannel.class);
+        when(command.getTargetChannel()).thenReturn(targetChannel);
+
+        profileHandler.execute(command);
+
+        verify(command).getTargetChannel();
+        verify(command).getAnswer();
     }
 }

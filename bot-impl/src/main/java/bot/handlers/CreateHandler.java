@@ -7,14 +7,14 @@ import bot.listeners.MessageListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Category;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 @Slf4j
@@ -54,6 +54,7 @@ public class CreateHandler implements SettingHandler<Create> {
 
     @Override
     public void execute(Command command) {
+        MessageChannel targetChannel = command.getTargetChannel();
         EmbedBuilder answer = new EmbedBuilder();
         try {
             if (category != null) {
@@ -81,9 +82,13 @@ public class CreateHandler implements SettingHandler<Create> {
                 }
             }
         } catch (Exception e) {
+            log.warn("Error during creating channel", e);
             answer.setDescription(e.toString());
         } finally {
-            command.getTargetChannel().sendMessage(answer.build()).submit();
+            if (Objects.nonNull(targetChannel)) {
+                MessageAction messageAction = targetChannel.sendMessage(answer.build());
+                messageAction.submit();
+            }
         }
     }
 
