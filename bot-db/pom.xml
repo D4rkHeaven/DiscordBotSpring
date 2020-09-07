@@ -23,10 +23,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
@@ -41,18 +37,14 @@
                 <configuration>
                     <outputFileEncoding>UTF-8</outputFileEncoding>
                     <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://${liquibase.host}:${liquibase.port}/${liquibase.db}?currentSchema=${liquibase.schema}</url>
+                    <url>
+                        jdbc:postgresql://${liquibase.host}:${liquibase.port}/${liquibase.db}?currentSchema=${liquibase.schema}
+                    </url>
                     <username>${liquibase.user}</username>
                     <password>${liquibase.password}</password>
                     <changeLogFile>${liquibase.changelogfile}</changeLogFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-data-jpa</artifactId>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

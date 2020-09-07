@@ -57,6 +57,12 @@
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>com.</groupId>
+                <artifactId>bot-domain</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
 
             <!-- JDA -->
             <dependency>
