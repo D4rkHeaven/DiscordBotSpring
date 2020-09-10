@@ -6,10 +6,14 @@ import bot.exceptions.InvalidParameterException;
 import bot.listeners.MessageListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -47,6 +51,11 @@ public class DebugHandler implements SettingHandler<Debug> {
 
     @Override
     public void execute(Command command) {
-        command.getTargetChannel().sendMessage(command.getAnswer()).submit();
+        MessageChannel targetChannel = command.getTargetChannel();
+        MessageEmbed answer = command.getAnswer();
+        if (Objects.nonNull(targetChannel) & Objects.nonNull(answer)) {
+            MessageAction messageAction = targetChannel.sendMessage(answer);
+            messageAction.submit();
+        }
     }
 }
