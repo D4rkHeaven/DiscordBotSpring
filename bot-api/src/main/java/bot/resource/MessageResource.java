@@ -3,7 +3,6 @@ package bot.resource;
 import bot.dto.MessageDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.dv8tion.jda.api.entities.Message;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
